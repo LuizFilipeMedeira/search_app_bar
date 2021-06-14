@@ -27,8 +27,8 @@ class MyHomePage extends StatelessWidget {
   final Store store;
 
   MyHomePage({
-    this.title,
-    this.store,
+    required this.title,
+    required this.store,
   });
 
   @override
@@ -45,7 +45,7 @@ class MyHomePage extends StatelessWidget {
             return ListView.builder(
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(list[index].name),
+                  title: Text(list![index].name),
                 );
               },
               itemCount: list?.length,

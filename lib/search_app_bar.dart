@@ -9,14 +9,14 @@ import 'search_widget.dart';
 
 class SearchAppBar<T> extends StatefulWidget implements PreferredSizeWidget {
   final Searcher searcher;
-  final Widget title;
-  final Widget leading;
+  final Widget? title;
+  final Widget? leading;
   final bool centerTitle;
-  final IconThemeData iconTheme;
-  final Color backgroundColor;
-  final Color searchBackgroundColor;
-  final Color searchElementsColor;
-  final String hintText;
+  final IconThemeData? iconTheme;
+  final Color? backgroundColor;
+  final Color? searchBackgroundColor;
+  final Color? searchElementsColor;
+  final String? hintText;
   final bool flattenOnSearch;
   final TextCapitalization capitalization;
   final List<Widget> actions;
@@ -24,7 +24,7 @@ class SearchAppBar<T> extends StatefulWidget implements PreferredSizeWidget {
   final TextInputType keyboardType;
 
   SearchAppBar({
-    @required this.searcher,
+    required this.searcher,
     this.title,
     this.leading,
     this.centerTitle = false,
@@ -36,8 +36,8 @@ class SearchAppBar<T> extends StatefulWidget implements PreferredSizeWidget {
     this.flattenOnSearch = false,
     this.capitalization = TextCapitalization.none,
     this.actions = const <Widget>[],
-    this.keyboardType,
-    int searchButtonPosition,
+    this.keyboardType = TextInputType.text,
+    int? searchButtonPosition,
   }) : _searchButtonPosition = (searchButtonPosition != null &&
                 (0 <= searchButtonPosition &&
                     searchButtonPosition <= actions.length))
@@ -53,10 +53,10 @@ class SearchAppBar<T> extends StatefulWidget implements PreferredSizeWidget {
 
 class _SearchAppBarState<T> extends State<SearchAppBar<T>>
     with SingleTickerProviderStateMixin<SearchAppBar<T>> {
-  SearchBloc<T> bloc;
-  double _rippleStartX, _rippleStartY;
-  AnimationController _controller;
-  Animation _animation;
+  late SearchBloc<T> bloc;
+  double _rippleStartX = 0, _rippleStartY = 0;
+  late AnimationController _controller;
+  late Animation _animation;
   double _elevation = 4.0;
 
   @override
@@ -122,7 +122,7 @@ class _SearchAppBarState<T> extends State<SearchAppBar<T>>
 
   AppBar _buildAppBar(BuildContext context) {
     final searchButton = _buildSearchButton(context);
-    final increasedActions = List<Widget>();
+    final increasedActions = List<Widget>.empty(growable: true);
     increasedActions.add(searchButton);
     increasedActions.addAll(widget.actions);
     return AppBar(
@@ -144,7 +144,7 @@ class _SearchAppBarState<T> extends State<SearchAppBar<T>>
         icon: Icon(
           Icons.search,
           color: widget.iconTheme?.color ??
-              Theme.of(context).appBarTheme.iconTheme.color,
+              Theme.of(context).appBarTheme.iconTheme?.color,
         ),
       ),
       onTapUp: onSearchTapUp,
@@ -158,7 +158,7 @@ class _SearchAppBarState<T> extends State<SearchAppBar<T>>
         return CustomPaint(
           painter: AppBarPainter(
             containerHeight: widget.preferredSize.height,
-            center: Offset(_rippleStartX ?? 0, _rippleStartY ?? 0),
+            center: Offset(_rippleStartX, _rippleStartY),
             // increase radius in % from 0% to 100% of screenWidth
             radius: _animation.value * screenWidth,
             context: context,

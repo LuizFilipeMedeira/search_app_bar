@@ -3,15 +3,15 @@ import 'package:search_app_bar/search_bloc.dart';
 
 class SearchWidget extends StatelessWidget implements PreferredSizeWidget {
   final SearchBloc bloc;
-  final Color color;
+  final Color? color;
   final VoidCallback onCancelSearch;
-  final TextCapitalization textCapitalization;
-  final String hintText;
+  final TextCapitalization? textCapitalization;
+  final String? hintText;
   final TextInputType keyboardType;
 
   SearchWidget({
-    @required this.bloc,
-    @required this.onCancelSearch,
+    required this.bloc,
+    required this.onCancelSearch,
     this.color,
     this.textCapitalization,
     this.hintText,
@@ -57,7 +57,7 @@ class SearchWidget extends StatelessWidget implements PreferredSizeWidget {
             Icons.close,
             color: color,
           ),
-          onPressed: bloc.onClearSearchQuery,
+          onPressed: () => bloc.onClearSearchQuery,
         );
       },
     );
@@ -102,7 +102,7 @@ class SearchWidget extends StatelessWidget implements PreferredSizeWidget {
     final controller = TextEditingController();
     controller.value = TextEditingValue(text: snapshot.data ?? '');
     controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: controller.text?.length ?? 0),
+      TextPosition(offset: controller.text.length),
     );
     return controller;
   }

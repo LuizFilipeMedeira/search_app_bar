@@ -38,5 +38,5 @@ class Store implements Searcher<String> {
       };
 
   @override
-  String Function(String filter) get onFiltering => filter;
+  void Function(String filter) get onFiltering => filter;
 }

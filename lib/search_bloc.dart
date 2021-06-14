@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:search_app_bar/searcher.dart';
 
@@ -30,7 +29,7 @@ class SearchBloc<T> extends BlocBase {
   /// Constructor
   ///
   SearchBloc({
-    @required this.searcher,
+    required this.searcher,
   }) {
     searchQuery.listen(searcher.onFiltering);
   }
